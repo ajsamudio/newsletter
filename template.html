@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>AJ's Daily Brief</title>
+  <style>
+    /* ── Reset ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #EDEEF2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1a1a2e; }
+    a { color: #2563EB; text-decoration: underline; }
+    a:hover { color: #1d4ed8; }
+    img { display: block; max-width: 100%; border: 0; }
+
+    /* ── Wrapper ── */
+    .wrapper { max-width: 620px; margin: 0 auto; padding: 24px 12px 48px; }
+
+    /* ── Header ── */
+    .header { background: #0F0F1A; border-radius: 12px 12px 0 0; padding: 36px 32px 28px; text-align: center; }
+    .header-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7c7c9e; margin-bottom: 10px; }
+    .header-title { font-size: 32px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; line-height: 1.1; }
+    .header-title span { color: #6366F1; }
+    .header-date { margin-top: 10px; font-size: 13px; color: #9999bb; }
+    .header-tags { margin-top: 16px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+    .header-tag { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #9999cc; letter-spacing: 0.5px; }
+
+    /* ── Section cards ── */
+    .section-card { background: #FFFFFF; margin-top: 3px; padding: 24px 28px; border-left: 4px solid #e5e7eb; position: relative; }
+    .section-card:last-of-type { border-radius: 0 0 12px 12px; }
+
+    /* Section accent colors */
+    .s-tech    { border-left-color: #4361EE; }
+    .s-ai      { border-left-color: #7C3AED; }
+    .s-econ    { border-left-color: #0EA5E9; }
+    .s-stocks  { border-left-color: #16A34A; }
+    .s-news    { border-left-color: #DC2626; }
+    .s-sports  { border-left-color: #EA580C; }
+    .s-vibes   { border-left-color: #8B5CF6; background: #fdfcff; }
+
+    /* ── Section header ── */
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f5; }
+    .section-emoji { font-size: 20px; line-height: 1; }
+    .section-title { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0F0F1A; }
+    .section-count { margin-left: auto; font-size: 11px; color: #9ca3af; background: #f3f4f6; padding: 2px 8px; border-radius: 10px; }
+
+    /* ── Story ── */
+    .story { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f5f5f8; }
+    .story:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .story-headline { font-size: 15px; font-weight: 700; color: #0F0F1A; line-height: 1.4; margin-bottom: 6px; }
+    .story-headline a { color: #0F0F1A; text-decoration: none; }
+    .story-headline a:hover { color: #4361EE; text-decoration: underline; }
+    .story-source-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #6b7280; background: #f3f4f6; padding: 2px 7px; border-radius: 4px; margin-bottom: 8px; }
+    .story-body { font-size: 14px; line-height: 1.65; color: #374151; }
+    .story-wim { margin-top: 8px; font-size: 13px; font-style: italic; color: #6b7280; padding-left: 10px; border-left: 2px solid #e5e7eb; }
+    .story-wim strong { font-style: normal; color: #4b5563; }
+
+    /* ── Community pulse ── */
+    .pulse { background: #F0F4FF; border-radius: 8px; padding: 12px 14px; margin-top: 16px; display: flex; gap: 10px; align-items: flex-start; }
+    .pulse-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6366F1; white-space: nowrap; padding-top: 1px; }
+    .pulse-content { font-size: 13px; color: #374151; line-height: 1.5; }
+    .pulse-content a { color: #4F46E5; }
+
+    /* ── Stocks block ── */
+    .index-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; }
+    .index-table th { text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #9ca3af; padding: 0 0 8px; border-bottom: 1px solid #f0f0f5; }
+    .index-table td { padding: 8px 0; border-bottom: 1px solid #f9f9fb; color: #374151; vertical-align: middle; }
+    .index-table td:last-child { text-align: right; }
+    .up   { color: #16A34A; font-weight: 600; }
+    .down { color: #DC2626; font-weight: 600; }
+
+    .movers-list { list-style: none; }
+    .movers-list li { font-size: 13.5px; padding: 7px 0; border-bottom: 1px solid #f5f5f8; color: #374151; line-height: 1.5; }
+    .movers-list li:last-child { border-bottom: none; }
+    .ticker { font-weight: 700; font-family: "SF Mono", "Fira Code", monospace; font-size: 12px; background: #f3f4f6; padding: 1px 6px; border-radius: 4px; color: #0F0F1A; }
+
+    /* ── Vibes ── */
+    .vibe-item { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+    .vibe-item:last-child { margin-bottom: 0; }
+    .vibe-sub { font-size: 11px; font-weight: 700; color: #7C3AED; background: #F5F3FF; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+    .vibe-body { font-size: 13.5px; color: #374151; line-height: 1.5; }
+    .vibe-body a { color: #7C3AED; }
+    .vibe-context { font-size: 12px; color: #9ca3af; margin-top: 3px; }
+
+    /* ── Sources ── */
+    .sources { margin-top: 18px; padding-top: 14px; border-top: 1px dashed #e5e7eb; }
+    .sources-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #d1d5db; margin-bottom: 6px; }
+    .sources-list { font-size: 11px; color: #9ca3af; line-height: 1.8; }
+    .sources-list a { color: #9ca3af; }
+    .sources-list a:hover { color: #6b7280; }
+
+    /* ── Footer ── */
+    .footer { background: #0F0F1A; border-radius: 0 0 12px 12px; padding: 28px 32px; text-align: center; }
+    .footer-brand { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .footer-brand span { color: #6366F1; }
+    .footer-tagline { font-size: 12px; color: #5a5a7a; margin-top: 6px; }
+    .footer-links { margin-top: 16px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: #5a5a7a; text-decoration: none; }
+    .footer-links a:hover { color: #9999bb; }
+    .footer-unsub { margin-top: 14px; font-size: 11px; color: #3a3a5a; }
+    .footer-unsub a { color: #4a4a6a; }
+
+    /* ── Divider ── */
+    .section-divider { height: 3px; background: #EDEEF2; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .wrapper { padding: 12px 6px 32px; }
+      .header { padding: 28px 20px 22px; }
+      .header-title { font-size: 26px; }
+      .section-card { padding: 20px 18px; }
+      .footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <div class="header">
+    <div class="header-eyebrow">Your daily brief</div>
+    <div class="header-title">AJ's<span>.</span>Brief</div>
+    <div class="header-date">Tuesday, May 19, 2026 &nbsp;·&nbsp; Week 21</div>
+    <div class="header-tags">
+      <span class="header-tag">Tech</span>
+      <span class="header-tag">AI</span>
+      <span class="header-tag">Markets</span>
+      <span class="header-tag">World</span>
+      <span class="header-tag">Sports</span>
+      <span class="header-tag">Vibes</span>
+    </div>
+  </div>
+
+  <!-- ══════════════ TECH ══════════════ -->
+  <div class="section-card s-tech">
+    <div class="section-header">
+      <span class="section-emoji">📰</span>
+      <span class="section-title">Tech</span>
+      <span class="section-count">5 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">TechStartups</div>
+      <div class="story-headline">
+        <a href="https://techstartups.com/2026/05/19/top-tech-news-today-may-19-2026/">Google and Blackstone launch $5B AI infrastructure joint venture</a>
+      </div>
+      <div class="story-body">
+        Google and Blackstone committed $5 billion in equity to bring 500 megawatts of AI cloud capacity online by 2027, with total investment potentially reaching $25 billion. The deal is led by Google's Benjamin Treynor Sloss and directly challenges Nvidia's grip on AI compute.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Hyperscalers competing on physical compute ownership could unlock AI infrastructure pricing independent of Nvidia supply constraints.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">TechStartups</div>
+      <div class="story-headline">
+        <a href="https://techstartups.com/2026/05/19/top-tech-news-today-may-19-2026/">Meta cuts 8,000 jobs as AI capex surges to $145B</a>
+      </div>
+      <div class="story-body">
+        Meta is laying off ~8,000 employees (10% of workforce) and scrapping 6,000 open roles while raising 2026 capital expenditure guidance to $145 billion. The reallocation shifts budget explicitly from payroll to compute infrastructure.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Combined with Amazon's 30K cuts and Microsoft's buyout offers to ~125K employees, Big Tech's labor-to-compute pivot is accelerating simultaneously across the sector.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">TechStartups</div>
+      <div class="story-headline">
+        <a href="https://techstartups.com/2026/05/19/top-tech-news-today-may-19-2026/">OpenAI defeats Elon Musk lawsuit, clearing an IPO obstacle</a>
+      </div>
+      <div class="story-body">
+        A jury ruled OpenAI not liable on Musk's "mission-drift" claims. The verdict removes one of the most prominent legal overhangs on the company's planned public offering.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> With this cleared, OpenAI's IPO timeline faces fewer external legal blockers — watch for filing signals in Q3.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/technology</strong> — <a href="https://www.reddit.com/r/technology/">"71% of Americans oppose AI data centers in their neighborhood (Gallup)"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Top comment energy: "NIMBYs won. The AI revolution will not be locally zoned."</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://techstartups.com/2026/05/19/top-tech-news-today-may-19-2026/">TechStartups — May 19</a> · Google-Blackstone, Meta layoffs, OpenAI verdict
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ AI ══════════════ -->
+  <div class="section-card s-ai">
+    <div class="section-header">
+      <span class="section-emoji">🤖</span>
+      <span class="section-title">AI</span>
+      <span class="section-count">5 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Build Fast With AI</div>
+      <div class="story-headline">
+        <a href="https://www.buildfastwithai.com/blogs/ai-news-today-may-18-2026">Anthropic raising $30B at ~$900B valuation — 80× revenue growth in Q1</a>
+      </div>
+      <div class="story-body">
+        Anthropic is closing a $30B+ round co-led by Sequoia, Dragoneer, Greenoaks, and Altimeter, expected by end of May. Q1 ARR exceeded $44 billion — ~80× YoY growth — with million-dollar customers doubling to 1,000+ in two months.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> At ~$900B, Anthropic approaches the largest private company valuations ever; the Q1 numbers show enterprise Claude adoption has crossed from pilot to production at scale.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Sources.news</div>
+      <div class="story-headline">
+        <a href="https://sources.news/p/google-about-to-release-new-gemini">Google I/O 2026 opens today — Gemini 4.0 and Android XR glasses expected</a>
+      </div>
+      <div class="story-body">
+        Google's developer conference opens May 19 with Gemini 4.0, Android XR smart glasses (partners: Samsung, Warby Parker, XREAL), and Aluminium OS expected. Benchmark target: match Claude Mythos Preview's 94.6% GPQA score.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Gemini 4.0 at I/O would be the fastest major-version frontier AI cadence in history, and XR glasses are Google's most direct challenge to Meta's Ray-Bans since the original Glass.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/singularity</strong> — <a href="https://www.reddit.com/r/singularity/">"Reddit sues Anthropic for scraping after being told to stop"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Meta-irony: Claude's training data showing up in the Claude AI subreddit. Top comment: "Claude's training data: 'I've made a huge mistake.'"</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.buildfastwithai.com/blogs/ai-news-today-may-18-2026">Build Fast With AI — May 18</a> · Anthropic fundraise, GPT-5.5, US AI regulation, Anthropic Q1 &nbsp;·&nbsp;
+        <a href="https://sources.news/p/google-about-to-release-new-gemini">Sources.news</a> · Gemini 4.0 preview
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ GLOBAL ECONOMICS ══════════════ -->
+  <div class="section-card s-econ">
+    <div class="section-header">
+      <span class="section-emoji">🌍</span>
+      <span class="section-title">Global Economics</span>
+      <span class="section-count">4 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Reuters / Bloomberg</div>
+      <div class="story-headline">
+        <a href="https://www.riotimesonline.com/global-economy-briefing-may-19-2026/">Trump delays Iran strike — Brent tops $110, Strait of Hormuz still closed</a>
+      </div>
+      <div class="story-body">
+        A US military strike on Iran planned for May 19 was called off after Qatar's Emir, Saudi Arabia's Crown Prince, and UAE's President personally appealed to Trump. "Serious negotiations are now taking place." Brent briefly topped $110 before retreating.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> With ~20% of global seaborne oil still disrupted via the Strait of Hormuz, every week without resolution pushes energy inflation higher globally.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Rio Times</div>
+      <div class="story-headline">
+        <a href="https://www.riotimesonline.com/global-economy-briefing-may-19-2026/">30-year Treasury yield hits 5.19% — highest since 2007</a>
+      </div>
+      <div class="story-body">
+        The 30-year US Treasury yield touched 5.198%, the highest since the financial crisis era. The 10-year crossed 4.63%. Prior-week PPI hit 6.0% YoY — the highest print since 2022.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Long bond yields repricing mortgages, corporate borrowing, and equity valuations simultaneously — the 30-year mortgage rate hit 6.68%, further suppressing housing.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/economics</strong> — <a href="https://www.reddit.com/r/economics/">"OECD: Global economic outlook is worsening — conflict + stagflation risk rising"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Thread debating whether the Fed can cut into an oil shock without reigniting inflation. Consensus: they can't.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.bloomberg.com/news/articles/2026-05-19/economic-outlook-at-risk-of-further-deterioration-oecd-says">Bloomberg — OECD downgrade</a> &nbsp;·&nbsp;
+        <a href="https://www.riotimesonline.com/global-economy-briefing-may-19-2026/">Rio Times — May 19</a> · Iran, yields, Japan GDP
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ US STOCKS ══════════════ -->
+  <div class="section-card s-stocks">
+    <div class="section-header">
+      <span class="section-emoji">📈</span>
+      <span class="section-title">US Stocks</span>
+      <span class="section-count">3rd losing session</span>
+    </div>
+
+    <table class="index-table">
+      <tr>
+        <th>Index</th><th>Close</th><th>Change</th>
+      </tr>
+      <tr>
+        <td><strong>S&amp;P 500</strong></td>
+        <td>7,353.61</td>
+        <td class="down">▼ 0.67%</td>
+      </tr>
+      <tr>
+        <td><strong>Nasdaq</strong></td>
+        <td>25,870.71</td>
+        <td class="down">▼ 0.84%</td>
+      </tr>
+      <tr>
+        <td><strong>Dow Jones</strong></td>
+        <td>49,375.46</td>
+        <td class="down">▼ 0.65% (−322 pts)</td>
+      </tr>
+    </table>
+
+    <ul class="movers-list">
+      <li><span class="ticker">NVDA</span> <span class="down">−1.33%</span> to $222.32 — Pre-earnings selloff ahead of Wednesday Q1 FY2027 print; analysts expect $70B–$78B revenue. <a href="https://www.alainguillot.com/market-recap-tuesday-may-19-2026/">→</a></li>
+      <li><span class="ticker">JAZZ</span> <span class="up">+10%</span> — UBS upgraded to Buy, $307 target, on gallbladder cancer drug Ziihera progress. <a href="https://www.alainguillot.com/market-recap-tuesday-may-19-2026/">→</a></li>
+      <li><span class="ticker">CSCO</span> <span class="down">−3.04%</span> — Led Dow decliners. <a href="https://www.thestreet.com/stock-market-today/stock-market-today-may-19-2026-updates">→</a></li>
+      <li><span class="ticker">VZ</span> <span class="up">+2.18%</span> — Led Dow gainers. <a href="https://www.thestreet.com/stock-market-today/stock-market-today-may-19-2026-updates">→</a></li>
+      <li><span class="ticker">HD</span> <span class="up">+0.3%</span> — Beat Q1 with $41.77B revenue and $3.43 EPS vs $3.41 expected. <a href="https://www.alainguillot.com/market-recap-tuesday-may-19-2026/">→</a></li>
+    </ul>
+
+    <div style="margin-top:16px;font-size:13px;color:#374151;line-height:1.6;">
+      <strong>Looking ahead:</strong> <strong>Nvidia earnings Wednesday May 20</strong> — described as "the most important earnings print of 2026." 30-year yield at 5.19% is the key macro watch; a move above 5.25% could accelerate equity selling.
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/wallstreetbets</strong> — <a href="https://www.reddit.com/r/wallstreetbets/">"Walmart mentions up 333% — this is the NVDA earnings calm before the storm"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">WSB mood: cautiously bullish but scarred. Three red days and NVDA holding the whole market's fate.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.alainguillot.com/market-recap-tuesday-may-19-2026/">Alain Guillot — May 19 recap</a> · index closes, NVDA, HD, JAZZ &nbsp;·&nbsp;
+        <a href="https://www.thestreet.com/stock-market-today/stock-market-today-may-19-2026-updates">The Street — May 19</a> · CSCO, VZ, yields
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ WORLD NEWS ══════════════ -->
+  <div class="section-card s-news">
+    <div class="section-header">
+      <span class="section-emoji">🗞️</span>
+      <span class="section-title">World &amp; General News</span>
+      <span class="section-count">5 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Just Security</div>
+      <div class="story-headline">
+        <a href="https://www.justsecurity.org/139313/early-edition-may-19-2026/">Xi and Putin meet in Beijing — Ukraine, Middle East, economic cooperation on agenda</a>
+      </div>
+      <div class="story-body">
+        Xi welcomed Putin in Beijing for a bilateral summit covering the Middle East war, Russia's invasion of Ukraine, and expanding economic cooperation between the two countries.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> A Xi-Putin summit during two active conflicts deepens the Russia-China alignment and creates a unified counterweight to Western sanctions and diplomatic pressure.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Just Security / WHO</div>
+      <div class="story-headline">
+        <a href="https://www.justsecurity.org/139313/early-edition-may-19-2026/">WHO declares Ebola emergency — 130+ dead across DRC and Uganda</a>
+      </div>
+      <div class="story-body">
+        WHO declared the Ebola outbreak in the DRC and Uganda a "public health emergency of international concern." Confirmed and suspected deaths exceed 130. The CDC triggered Title 42 to restrict US entry from affected regions for 30 days.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> A third concurrent global crisis alongside the Middle East conflict and Ukraine war strains humanitarian and health systems that are already stretched.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/worldnews</strong> — <a href="https://www.reddit.com/r/worldnews/">"Russia announces nuclear exercises with 64,000 troops in Belarus — timed to Xi-Putin summit"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Thread debating whether this is signal or posture. Top reply: "Both. It's always both."</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.justsecurity.org/139313/early-edition-may-19-2026/">Just Security — Early Edition May 19</a> · Xi-Putin, Ebola, Russia drills, Israel flotilla &nbsp;·&nbsp;
+        <a href="https://www.npr.org/sections/world/">NPR</a> · US midterms
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ SPORTS ══════════════ -->
+  <div class="section-card s-sports">
+    <div class="section-header">
+      <span class="section-emoji">🏆</span>
+      <span class="section-title">Sports &amp; Prediction Markets</span>
+      <span class="section-count">WCF · Game 1</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Yahoo Sports</div>
+      <div class="story-headline">
+        <a href="https://sports.yahoo.com/articles/2026-nba-championship-odds-thunder-150100421.html">Wembanyama 40 pts / 20 reb — Spurs stun Thunder 122–115 in double OT</a>
+      </div>
+      <div class="story-body">
+        Victor Wembanyama delivered a 40-point, 20-rebound performance in double overtime as San Antonio upset Oklahoma City in Game 1 of the WCF. Wembanyama played the most minutes of his career across the two OT periods. OKC had been undefeated in these playoffs entering Game 1.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> A 40-20 WCF performance at 22 years old is the kind of night that resets a player's championship narrative for the next decade.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Yahoo Finance / Kalshi</div>
+      <div class="story-headline">
+        <a href="https://finance.yahoo.com/markets/crypto/articles/polymarket-kalshi-volumes-hit-150b-145540046.html">OKC championship odds shift from −170 to +120 after Game 1 loss · Kalshi closes $1B Series F at $22B valuation</a>
+      </div>
+      <div class="story-body">
+        Kalshi's NBA markets repriced OKC from a −170 favorite to +120 after the Game 1 upset. Spurs moved from +155 to live challenger. Separately, Kalshi announced a $1 billion raise valuing it at $22 billion — sports betting (~85% of its volume) proving more durable than politics-event-driven platforms.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The odds shift represents real money moving — Kalshi's sports books saw $14.9M on OKC-Lakers this week alone; the valuation signals institutional confidence in the prediction-market model.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/nba</strong> — <a href="https://www.reddit.com/r/nba/">"Wemby 40/20 in double OT — the 'alien' discourse is back and it's deserved"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Sub in full meltdown. Clips being compared to Jordan/LeBron/KD career-defining moments — for a 22-year-old.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://sports.yahoo.com/articles/2026-nba-championship-odds-thunder-150100421.html">Yahoo Sports — NBA Championship Odds</a> · Spurs-Thunder result, Wembanyama stats &nbsp;·&nbsp;
+        <a href="https://finance.yahoo.com/markets/crypto/articles/polymarket-kalshi-volumes-hit-150b-145540046.html">Yahoo Finance — Kalshi $150B</a> · valuation, volume data
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ VIBES ══════════════ -->
+  <div class="section-card s-vibes">
+    <div class="section-header">
+      <span class="section-emoji">💬</span>
+      <span class="section-title">The Vibes</span>
+      <span class="section-count">what the internet's doing</span>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/nba</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/nba/">"Wemby is from another planet and I will die on this hill"</a>
+        <div class="vibe-context">40-20 in double OT broke the sub. "Alien" trending for the third time this season.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/singularity</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/singularity/">"Reddit sues Anthropic for scraping. Irony: this post is on Reddit."</a>
+        <div class="vibe-context">Meta-recursion achieved. The thread is discussing whether Claude read the thread about Claude.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/wallstreetbets</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/wallstreetbets/">"NVDA earnings Wednesday — my puts or my calls, one of them is about to make me look smart"</a>
+        <div class="vibe-context">Classic pre-earnings WSB energy. Loss porn or rocket emojis — no in-between.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/technology</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/technology/">"71% of Americans oppose AI data centers nearby. Big Tech: 'noted, anyway here's another 500MW'"</a>
+        <div class="vibe-context">Gallup poll dropped and the comments are just people tagging their local officials.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/ClaudeAI</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/ClaudeAI/">"Google I/O dropping today — megathread on whether Gemini 4.0 finally beats Claude Mythos"</a>
+        <div class="vibe-context">The real competition per the community is no longer GPT vs Claude — it's Gemini 4 vs Mythos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <div class="footer">
+    <div class="footer-brand">AJ's<span>.</span>Brief</div>
+    <div class="footer-tagline">Generated daily by Claude · Powered by curiosity</div>
+    <div class="footer-links">
+      <a href="#">Archive</a>
+      <a href="#">About</a>
+      <a href="#">Subscribe</a>
+    </div>
+    <div class="footer-unsub">
+      You're receiving this because you signed up. &nbsp;
+      <a href="#">Unsubscribe</a> &nbsp;·&nbsp; <a href="#">Manage preferences</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
