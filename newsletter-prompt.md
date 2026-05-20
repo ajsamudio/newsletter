@@ -10,8 +10,8 @@ This prompt is your single source of truth — run it end to end every time you 
 
 - Today's date: use the current real-world date.
 - Coverage window:
-  - **Daily mode (current default):** the prior 24 hours.
-  - **Weekly mode (switch when noted):** the prior 7 days, anchored to most recent Thursday.
+  - **Weekly mode (current default):** the prior 7 days, anchored to the most recent Thursday.
+  - **Daily mode (switch when noted):** the prior 24 hours.
 - Output filename: `archive/{YYYY-MM-DD}.md` using today's date.
 
 ---
@@ -98,7 +98,7 @@ A closing section capturing what the niche communities are actually laughing at,
 1. **Search.** One or two WebSearch queries with current year + topic. Skim 10–15 results.
 2. **Pick.** Choose 3–5 candidate stories, prioritizing recency (inside coverage window), source quality, and substance over hype.
 3. **Verify.** WebFetch each candidate's article. Pull the actual facts you'll cite (names, numbers, dates, quotes). If a candidate can't be verified, drop it.
-4. **Write.** Use the template structure (see `template.md`). Per story:
+4. **Write.** Use the template structure (see `template.html`). Per story:
    - Headline + direct article link
    - 2–3 sentence summary (active voice, plain words)
    - "Why it matters" — one sentence naming who is affected and why
@@ -131,10 +131,6 @@ A closing section capturing what the niche communities are actually laughing at,
 ## 6. Output
 
 1. **Write the rendered newsletter to `archive/{YYYY-MM-DD}.md`** using today's ISO date.
-2. **(Phase 3 only — currently SKIP)** POST the markdown body to Resend at `https://api.resend.com/emails` with:
-   - `from: "Newsletter <onboarding@resend.dev>"`
-   - `to: "antsamudio99@gmail.com"`
-   - `subject: "Brief — {today's date}"`
-   - `text: <markdown body>`
-   - Header: `Authorization: Bearer {RESEND_API_KEY}`
-3. **Print a one-line summary** to the user: e.g. `"Wrote archive/2026-05-19.md — 7 sections (6 news + Vibes), 24 stories + 4 vibe items, all hard-news sources verified."`
+2. **Write the styled HTML email to `archive/{YYYY-MM-DD}.html`** using `template.html` as your visual reference (copy its `<style>` block exactly, replicate the section card structure, populate with today's content). This file is what gets emailed — make it complete and self-contained.
+3. **Email delivery is automatic** — a GitHub Actions workflow detects the new `.html` file and sends it via Resend. You do not need to call any API or run any script.
+4. **Print a one-line summary:** e.g. `"Wrote archive/2026-05-19.md + .html — 7 sections, 24 stories + 5 vibe items, all hard-news sources verified."`

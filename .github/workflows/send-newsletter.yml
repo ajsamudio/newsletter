@@ -25,9 +25,8 @@ jobs:
       - name: Send via Resend
         if: steps.changed.outputs.file != ''
         run: |
-          HTML=$(cat "${{ steps.changed.outputs.file }}")
           PAYLOAD=$(python3 -c "
-          import json, sys
+          import json
           html = open('${{ steps.changed.outputs.file }}').read()
           print(json.dumps({
               'from': \"AJ's Brief <onboarding@resend.dev>\",
@@ -44,5 +43,5 @@ jobs:
           if echo "$RESPONSE" | grep -q '"id"'; then
             echo "Email sent successfully"
           else
-            echo "Send failed" && exit 1
+            echo "Send failed: $RESPONSE" && exit 1
           fi
