@@ -1,0 +1,48 @@
+name: Send Newsletter Email
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'archive/*.html'
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get changed HTML file
+        id: changed
+        run: |
+          FILE=$(git diff-tree --no-commit-id -r --name-only ${{ github.sha }} | grep 'archive/.*\.html' | head -1)
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+          DATE=$(basename "$FILE" .html)
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          echo "Found newsletter: $FILE (date: $DATE)"
+
+      - name: Send via Resend
+        if: steps.changed.outputs.file != ''
+        run: |
+          HTML=$(cat "${{ steps.changed.outputs.file }}")
+          PAYLOAD=$(python3 -c "
+          import json, sys
+          html = open('${{ steps.changed.outputs.file }}').read()
+          print(json.dumps({
+              'from': \"AJ's Brief <onboarding@resend.dev>\",
+              'to': 'antsamudio99@gmail.com',
+              'subject': \"AJ's Brief — ${{ steps.changed.outputs.date }}\",
+              'html': html
+          }))
+          ")
+          RESPONSE=$(curl -s -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer ${{ secrets.RESEND_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD")
+          echo "Resend response: $RESPONSE"
+          if echo "$RESPONSE" | grep -q '"id"'; then
+            echo "Email sent successfully"
+          else
+            echo "Send failed" && exit 1
+          fi
