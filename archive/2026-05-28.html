@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>AJ's Brief — May 28, 2026</title>
+  <style>
+    /* ── Reset ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #EDEEF2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1a1a2e; }
+    a { color: #2563EB; text-decoration: underline; }
+    a:hover { color: #1d4ed8; }
+    img { display: block; max-width: 100%; border: 0; }
+
+    /* ── Wrapper ── */
+    .wrapper { max-width: 620px; margin: 0 auto; padding: 24px 12px 48px; }
+
+    /* ── Header ── */
+    .header { background: #0F0F1A; border-radius: 12px 12px 0 0; padding: 36px 32px 28px; text-align: center; }
+    .header-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7c7c9e; margin-bottom: 10px; }
+    .header-title { font-size: 32px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; line-height: 1.1; }
+    .header-title span { color: #6366F1; }
+    .header-date { margin-top: 10px; font-size: 13px; color: #9999bb; }
+    .header-tags { margin-top: 16px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+    .header-tag { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #9999cc; letter-spacing: 0.5px; }
+
+    /* ── Section cards ── */
+    .section-card { background: #FFFFFF; margin-top: 3px; padding: 24px 28px; border-left: 4px solid #e5e7eb; position: relative; }
+    .section-card:last-of-type { border-radius: 0 0 12px 12px; }
+
+    /* Section accent colors */
+    .s-tech    { border-left-color: #4361EE; }
+    .s-ai      { border-left-color: #7C3AED; }
+    .s-econ    { border-left-color: #0EA5E9; }
+    .s-stocks  { border-left-color: #16A34A; }
+    .s-news    { border-left-color: #DC2626; }
+    .s-sports  { border-left-color: #EA580C; }
+    .s-vibes   { border-left-color: #8B5CF6; background: #fdfcff; }
+
+    /* ── Section header ── */
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f5; }
+    .section-emoji { font-size: 20px; line-height: 1; }
+    .section-title { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0F0F1A; }
+    .section-count { margin-left: auto; font-size: 11px; color: #9ca3af; background: #f3f4f6; padding: 2px 8px; border-radius: 10px; }
+
+    /* ── Story ── */
+    .story { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f5f5f8; }
+    .story:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .story-headline { font-size: 15px; font-weight: 700; color: #0F0F1A; line-height: 1.4; margin-bottom: 6px; }
+    .story-headline a { color: #0F0F1A; text-decoration: none; }
+    .story-headline a:hover { color: #4361EE; text-decoration: underline; }
+    .story-source-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #6b7280; background: #f3f4f6; padding: 2px 7px; border-radius: 4px; margin-bottom: 8px; }
+    .story-body { font-size: 14px; line-height: 1.65; color: #374151; }
+    .story-wim { margin-top: 8px; font-size: 13px; font-style: italic; color: #6b7280; padding-left: 10px; border-left: 2px solid #e5e7eb; }
+    .story-wim strong { font-style: normal; color: #4b5563; }
+
+    /* ── Community pulse ── */
+    .pulse { background: #F0F4FF; border-radius: 8px; padding: 12px 14px; margin-top: 16px; display: flex; gap: 10px; align-items: flex-start; }
+    .pulse-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6366F1; white-space: nowrap; padding-top: 1px; }
+    .pulse-content { font-size: 13px; color: #374151; line-height: 1.5; }
+    .pulse-content a { color: #4F46E5; }
+
+    /* ── Stocks block ── */
+    .index-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; }
+    .index-table th { text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #9ca3af; padding: 0 0 8px; border-bottom: 1px solid #f0f0f5; }
+    .index-table td { padding: 8px 0; border-bottom: 1px solid #f9f9fb; color: #374151; vertical-align: middle; }
+    .index-table td:last-child { text-align: right; }
+    .up   { color: #16A34A; font-weight: 600; }
+    .down { color: #DC2626; font-weight: 600; }
+
+    .movers-list { list-style: none; }
+    .movers-list li { font-size: 13.5px; padding: 7px 0; border-bottom: 1px solid #f5f5f8; color: #374151; line-height: 1.5; }
+    .movers-list li:last-child { border-bottom: none; }
+    .ticker { font-weight: 700; font-family: "SF Mono", "Fira Code", monospace; font-size: 12px; background: #f3f4f6; padding: 1px 6px; border-radius: 4px; color: #0F0F1A; }
+
+    /* ── Vibes ── */
+    .vibe-item { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+    .vibe-item:last-child { margin-bottom: 0; }
+    .vibe-sub { font-size: 11px; font-weight: 700; color: #7C3AED; background: #F5F3FF; padding: 3px 8px; border-radius: 12px; white-space: nowrap; }
+    .vibe-body { font-size: 13.5px; color: #374151; line-height: 1.5; }
+    .vibe-body a { color: #7C3AED; }
+    .vibe-context { font-size: 12px; color: #9ca3af; margin-top: 3px; }
+
+    /* ── Sources ── */
+    .sources { margin-top: 18px; padding-top: 14px; border-top: 1px dashed #e5e7eb; }
+    .sources-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #d1d5db; margin-bottom: 6px; }
+    .sources-list { font-size: 11px; color: #9ca3af; line-height: 1.8; }
+    .sources-list a { color: #9ca3af; }
+    .sources-list a:hover { color: #6b7280; }
+
+    /* ── Footer ── */
+    .footer { background: #0F0F1A; border-radius: 0 0 12px 12px; padding: 28px 32px; text-align: center; }
+    .footer-brand { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .footer-brand span { color: #6366F1; }
+    .footer-tagline { font-size: 12px; color: #5a5a7a; margin-top: 6px; }
+    .footer-links { margin-top: 16px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: #5a5a7a; text-decoration: none; }
+    .footer-links a:hover { color: #9999bb; }
+    .footer-unsub { margin-top: 14px; font-size: 11px; color: #3a3a5a; }
+    .footer-unsub a { color: #4a4a6a; }
+
+    /* ── Divider ── */
+    .section-divider { height: 3px; background: #EDEEF2; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .wrapper { padding: 12px 6px 32px; }
+      .header { padding: 28px 20px 22px; }
+      .header-title { font-size: 26px; }
+      .section-card { padding: 20px 18px; }
+      .footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <div class="header">
+    <div class="header-eyebrow">Your weekly brief</div>
+    <div class="header-title">AJ's<span>.</span>Brief</div>
+    <div class="header-date">Thursday, May 28, 2026 &nbsp;·&nbsp; Week 22</div>
+    <div class="header-tags">
+      <span class="header-tag">Tech</span>
+      <span class="header-tag">AI</span>
+      <span class="header-tag">Markets</span>
+      <span class="header-tag">World</span>
+      <span class="header-tag">Sports</span>
+      <span class="header-tag">Vibes</span>
+    </div>
+  </div>
+
+  <!-- ══════════════ TECH ══════════════ -->
+  <div class="section-card s-tech">
+    <div class="section-header">
+      <span class="section-emoji">📰</span>
+      <span class="section-title">Tech</span>
+      <span class="section-count">4 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNBC · Bloomberg</div>
+      <div class="story-headline">
+        <a href="https://www.cnbc.com/2026/05/26/micron-stock-trillion-market-cap.html">Micron crosses $1 trillion market cap — entire 2026 HBM supply sold out</a>
+      </div>
+      <div class="story-body">
+        Micron Technology's stock surged 19% on May 26 after UBS raised its price target from $535 to $1,625 — the highest among 46 brokerages — citing AI memory demand as structural, not cyclical. MU briefly crossed $1 trillion in market cap for the first time, with shares hitting a record $886.60. UBS projects Micron's market cap could reach $1.8 trillion. The company had already disclosed its entire 2026 high-bandwidth memory (HBM) supply is sold out.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Memory chips are the second major AI hardware bottleneck after GPUs, and Micron is the only US-based HBM maker. Crossing $1T reflects how indispensable AI memory has become; the sold-out 2026 HBM allocation means any new demand can't be filled until 2027.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNBC · Breaking Defense</div>
+      <div class="story-headline">
+        <a href="https://www.cnbc.com/2026/05/27/dell-dod-pentagon-software-deal-digital-infrastructure-trump.html">Dell wins $9.7B Pentagon software deal — Microsoft 365 + cloud for the entire DoD</a>
+      </div>
+      <div class="story-body">
+        Dell Federal Systems won a 5-year contract on May 27 to supply Microsoft 365 and advanced cloud subscriptions to the DoD, intelligence community, and Coast Guard — consolidating scattered agency-by-agency procurement into a single vehicle. Pentagon officials said the change saves approximately $422 million annually. Dell stock climbed ~4% on the news.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> This is the largest single software consolidation contract the DoD has ever awarded to a single commercial vendor. Combined with Dell's AI server business, it cements the company as the defining federal IT infrastructure player of 2026.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Motley Fool · Kiplinger</div>
+      <div class="story-headline">
+        <a href="https://www.fool.com/investing/2026/05/23/nvidias-board-just-authorized-an-additional-80-bil/">Nvidia adds $80B buyback + guides Q2 to $91B — $118B in total repurchase capacity</a>
+      </div>
+      <div class="story-body">
+        Nvidia's board authorized an additional $80 billion buyback on May 23, stacking on $38.5 billion remaining from the prior program to give the company ~$118 billion in total repurchase capacity with no expiration. Q2 guidance of $91 billion (±2%) beat analyst consensus of $86.8 billion by ~4.8%. The quarterly cash dividend was raised 25-fold, from $0.01 to $0.25 per share.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> At $118B in repurchase power, Nvidia's buyback program rivals the total market cap of many S&amp;P 500 companies. It signals the board considers current prices cheap — even after 85% revenue growth — and is designed to signal structural confidence to the market.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">OpenAI Newsroom</div>
+      <div class="story-headline">
+        <a href="https://openai.com/news/">OpenAI files confidential S-1 with the SEC — September IPO targeted</a>
+      </div>
+      <div class="story-body">
+        OpenAI filed a confidential S-1 registration statement with the SEC on May 22, targeting a September 2026 public listing. The filing follows OpenAI's January 2026 conversion to a for-profit public benefit corporation. A confidential filing gives the company ~90 days to test investor appetite before committing to a roadshow.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> A September IPO would put OpenAI on public markets while ChatGPT is the world's most-used AI product. Valuation leaks in the $800B–$900B range are likely by July — and the S-1 will be the first public audit of how OpenAI's revenue, cost structure, and profitability actually stack.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/technology</strong> — <a href="https://www.reddit.com/r/technology/">"Micron just became a $1 trillion company. A memory chip company. From the same country that was 'losing the chip war.'"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">MU's milestone is being treated as a geopolitical win as much as a financial one — the only US-based HBM maker crossing $1T while China is locked out of the technology.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.cnbc.com/2026/05/26/micron-stock-trillion-market-cap.html">CNBC — Micron $1T</a> &nbsp;·&nbsp;
+        <a href="https://www.bloomberg.com/news/articles/2026-05-26/micron-shares-rally-ubs-projects-1-8-trillion-market-value">Bloomberg — UBS $1,625 target</a> &nbsp;·&nbsp;
+        <a href="https://www.cnbc.com/2026/05/27/dell-dod-pentagon-software-deal-digital-infrastructure-trump.html">CNBC — Dell DoD</a> &nbsp;·&nbsp;
+        <a href="https://breakingdefense.com/2026/05/pentagon-awards-dell-9-7-billion-contract-to-consolidate-software-licenses/">Breaking Defense — contract details</a> &nbsp;·&nbsp;
+        <a href="https://www.fool.com/investing/2026/05/23/nvidias-board-just-authorized-an-additional-80-bil/">Motley Fool — Nvidia buyback</a> &nbsp;·&nbsp;
+        <a href="https://openai.com/news/">OpenAI newsroom — S-1</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ AI ══════════════ -->
+  <div class="section-card s-ai">
+    <div class="section-header">
+      <span class="section-emoji">🤖</span>
+      <span class="section-title">AI</span>
+      <span class="section-count">3 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Washington Post · National Catholic Reporter</div>
+      <div class="story-headline">
+        <a href="https://www.washingtonpost.com/technology/2026/05/25/anthropic-aligns-with-vatican-over-white-house-pope-leo-stokes-ai-fears/">Pope Leo XIV releases "Magnifica Humanitas" — first papal AI encyclical, Anthropic co-founder in the room</a>
+      </div>
+      <div class="story-body">
+        Pope Leo XIV released his first encyclical on May 25 — "Magnifica Humanitas: On Safeguarding the Human Person in the Age of Artificial Intelligence." In a packed Vatican auditorium, Anthropic co-founder Christopher Olah sat alongside cardinals and theologians, the first tech company representative to co-present a papal encyclical. The document calls to "disarm" AI and warns of technological threats to human dignity, framing AI governance as a moral imperative requiring church-tech partnership.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The Vatican's normative authority reaches 1.4 billion Catholics globally. Anthropic's choice to align with the Vatican rather than the White House — which opposes most AI regulation — is a deliberate strategic bet on values-based positioning, timed ahead of OpenAI's IPO and Anthropic's own expected fundraise close.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Axios · Benzinga</div>
+      <div class="story-headline">
+        <a href="https://www.axios.com/2026/05/20/anthropic-spacex-compute">SpaceX S-1 reveals Anthropic pays $1.25B/month for compute — $45B through 2029</a>
+      </div>
+      <div class="story-body">
+        The SpaceX IPO S-1 disclosed that Anthropic has committed $1.25 billion per month for GPU compute across the Colossus and Colossus II campuses through May 2029 — $45 billion in total, with 90-day mutual exit options. This landed the same week Anthropic projected its first quarterly operating profit: Q2 2026 revenue of $10.9 billion and operating profit of $559 million.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Anthropic's monthly compute spend exceeds the annual revenue of most Fortune 500 software companies. The Q2 profitability signal means the world's most aggressively spending AI lab is also claiming its unit economics are turning positive at this scale — a structural turning point for the AI compute business model.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">OpenAI Newsroom</div>
+      <div class="story-headline">
+        <a href="https://openai.com/news/">OpenAI launches GPT-5.3-Codex — first model fusing GPT-5 + Codex training stacks</a>
+      </div>
+      <div class="story-body">
+        OpenAI released GPT-5.3-Codex this week, combining the Codex and GPT-5 training architectures into one model purpose-built for coding agents. The model runs ~25% faster than GPT-5.5 on coding tasks, sets new SWE-bench records, and is described as a step-change from "code generation" to "general-purpose coding agent." On May 27, OpenAI was named a Leader in Gartner's first enterprise coding agents Magic Quadrant.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> GPT-5.3-Codex targets directly the Chinese open-weight cluster (Kimi K2.6, DeepSeek V4) that runs at 14× lower cost. OpenAI's bet: agentic code execution at enterprise scale — not just autocomplete — is where development tooling is heading, and it intends to own that transition with a proprietary model that justifies its price premium.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/ClaudeAI</strong> — <a href="https://www.reddit.com/r/ClaudeAI/">"Pope Leo XIV invited an Anthropic co-founder to the Vatican. I'm not sure what I expected from 2026 but it wasn't this."</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Thread has everything: serious engagement with the encyclical text, jokes about Claude's absolution, and a 3,000-word theological analysis. The range of the community is unmatched.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.washingtonpost.com/technology/2026/05/25/anthropic-aligns-with-vatican-over-white-house-pope-leo-stokes-ai-fears/">Washington Post — Magnifica Humanitas</a> &nbsp;·&nbsp;
+        <a href="https://www.ncronline.org/vatican/pope-leo-calls-disarm-ai-major-document-warns-technologic-threats-humanity">National Catholic Reporter — encyclical text</a> &nbsp;·&nbsp;
+        <a href="https://www.anthropic.com/news/chris-olah-pope-leo-encyclical">Anthropic — Olah's remarks</a> &nbsp;·&nbsp;
+        <a href="https://www.axios.com/2026/05/20/anthropic-spacex-compute">Axios — $1.25B/month deal</a> &nbsp;·&nbsp;
+        <a href="https://www.benzinga.com/markets/ipos/26/05/52724877/spacexs-45-billion-anthropic-deal-could-fund-its-ai-buildout-three-times-over">Benzinga — $45B total</a> &nbsp;·&nbsp;
+        <a href="https://openai.com/news/">OpenAI newsroom — GPT-5.3-Codex</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ GLOBAL ECONOMICS ══════════════ -->
+  <div class="section-card s-econ">
+    <div class="section-header">
+      <span class="section-emoji">🌍</span>
+      <span class="section-title">Global Economics</span>
+      <span class="section-count">3 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNBC · Benzinga</div>
+      <div class="story-headline">
+        <a href="https://www.cnbc.com/2026/05/28/core-inflation-hit-an-annual-rate-of-3point3percent-in-april-as-expected-feds-preferred-gauge-shows-.html">April PCE hits 3.8% — markets now pricing 50% chance of a 2026 Fed rate hike</a>
+      </div>
+      <div class="story-body">
+        April's PCE price index rose 0.4% month-over-month, putting the 12-month rate at 3.8% — the highest since May 2023. Core PCE (excluding food and energy) rose 0.2% MoM and 3.3% YoY. The Hormuz energy disruption is now fully feeding through goods and transportation prices. Markets are pricing approximately a 50% probability of at least one Fed rate hike by end-2026. New Fed Chair Kevin Warsh has signaled openness to cuts but faces a hawkish FOMC majority.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The Fed is in a structural bind: inflation has re-accelerated past the 3.5% threshold while growth is slowing. Every month Hormuz stays partially closed pushes the inflation floor higher — and the window for a rate cut, already narrow, now requires a major energy price relief event to reopen.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNBC · Washington Post · CNN</div>
+      <div class="story-headline">
+        <a href="https://www.cnbc.com/2026/05/28/oil-prices-us-strikes-in-iran-revive-strait-of-hormuz-turmoil-fears.html">US-Iran 60-day ceasefire MoU negotiated — Trump hasn't signed; Brent at $94.64</a>
+      </div>
+      <div class="story-body">
+        Negotiators reached a 60-day memorandum of understanding on May 24 to extend the ceasefire while nuclear talks proceed, with Hormuz de-mining and Iranian-Omani traffic management as central terms. Trump said May 23 the deal was "largely negotiated." As of May 28: Iran's state TV claimed full agreement; the White House called it a "complete fabrication." US Central Command conducted fresh strikes on Iranian missile sites on May 25. Brent crude sits at $94.64, WTI at $89.26.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Open Hormuz would collapse energy prices ~$15–20/barrel and immediately relieve the inflation premium currently embedded in every goods price globally. The longer the diplomatic contradiction holds, the more persistent that premium becomes — and the harder it gets for the Fed to justify any move at all.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNBC · CBS News</div>
+      <div class="story-headline">
+        <a href="https://www.cnbc.com/2026/05/15/trump-xi-summit-the-3-big-takeaways-from-historic-meeting-in-beijing.html">Trump-Xi Beijing summit: 200 Boeing jets, tariff truce, Xi vows no arms to Iran</a>
+      </div>
+      <div class="story-body">
+        Trump and Xi held a bilateral summit in Beijing on May 14–15. Key deliverables: China agreed to order 200 Boeing jets; Xi committed to providing no military equipment to Iran; both sides agreed to discuss a reciprocal tariff reduction framework on $30B+ in goods. Xi declared a "strategic stability" framework for 3 years. Trump has invited Xi to Washington for Sept. 24.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The Boeing order injects ~$30–40B in US manufacturing revenue at list prices. Xi's Iran weapons pledge removes a meaningful Gulf escalation channel if honored. The September US visit creates a structured calendar for further tariff de-escalation before the October 2025 trade truce terms expire.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/economics</strong> — <a href="https://www.reddit.com/r/economics/">"Fed's 'preferred gauge' at 3.8%. What's the point of a preferred gauge if you can't prefer to ignore it when it's bad news?"</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Thread: economists debating whether 50% hike pricing is genuine forecast or market hedge. Consensus: the Hormuz energy premium is driving everything and the Fed literally cannot cut into this.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.cnbc.com/2026/05/28/core-inflation-hit-an-annual-rate-of-3point3percent-in-april-as-expected-feds-preferred-gauge-shows-.html">CNBC — PCE 3.8%</a> &nbsp;·&nbsp;
+        <a href="https://www.benzinga.com/markets/macro-economic-events/26/05/52835775/us-pce-inflation-report-april-2026">Benzinga — hike probability</a> &nbsp;·&nbsp;
+        <a href="https://www.cnbc.com/2026/05/28/oil-prices-us-strikes-in-iran-revive-strait-of-hormuz-turmoil-fears.html">CNBC — Iran MoU / oil prices</a> &nbsp;·&nbsp;
+        <a href="https://www.washingtonpost.com/world/2026/05/24/us-iran-near-deal-extend-ceasefire-reopen-hormuz/">Washington Post — MoU terms</a> &nbsp;·&nbsp;
+        <a href="https://www.cnbc.com/2026/05/15/trump-xi-summit-the-3-big-takeaways-from-historic-meeting-in-beijing.html">CNBC — Trump-Xi summit</a> &nbsp;·&nbsp;
+        <a href="https://www.cbsnews.com/news/trump-wraps-up-visit-with-xi-in-china/">CBS News — Boeing jets, Iran pledge</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ US STOCKS ══════════════ -->
+  <div class="section-card s-stocks">
+    <div class="section-header">
+      <span class="section-emoji">📈</span>
+      <span class="section-title">US Stocks</span>
+      <span class="section-count">Records → PCE retreat</span>
+    </div>
+
+    <table class="index-table">
+      <tr>
+        <th>Index</th><th>May 28 (approx.)</th><th>Weekly highlight</th>
+      </tr>
+      <tr>
+        <td><strong>S&amp;P 500</strong></td>
+        <td>~−0.02%</td>
+        <td class="up">Record close May 26 (+0.61%)</td>
+      </tr>
+      <tr>
+        <td><strong>Nasdaq</strong></td>
+        <td class="down">~−0.16%</td>
+        <td class="up">Record May 26; chip pullback May 28</td>
+      </tr>
+      <tr>
+        <td><strong>Dow Jones</strong></td>
+        <td class="down">~−0.63%</td>
+        <td class="up">Record May 27; PCE retreat</td>
+      </tr>
+      <tr>
+        <td><strong>Russell 2000</strong></td>
+        <td class="up">+1.77% (May 26)</td>
+        <td>Best single-day performer of week</td>
+      </tr>
+    </table>
+    <p style="font-size:11px;color:#9ca3af;margin-bottom:16px;">*Exact May 28 closing levels unable to verify at generation (source returned 403). Percentages from search snippets; treat as approximate. Sources: <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-may-26-2026">TheStreet May 26</a> · <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-may-27-2026">May 27</a> · <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-may-28-2026">May 28</a></p>
+
+    <ul class="movers-list">
+      <li><span class="ticker">MU</span> <span class="up">+19%</span> — Micron crosses $1T market cap; UBS $1,625 price target; 2026 HBM fully sold out. <a href="https://www.cnbc.com/2026/05/26/micron-stock-trillion-market-cap.html">→</a></li>
+      <li><span class="ticker">DELL</span> <span class="up">+4%</span> — $9.7B Pentagon Microsoft 365 contract awarded May 27; first print as a declared federal anchor. <a href="https://www.cnbc.com/2026/05/27/dell-dod-pentagon-software-deal-digital-infrastructure-trump.html">→</a></li>
+      <li><span class="ticker">CRM</span> <span class="down">−2.8% (AH)</span> — Salesforce Q1 beat ($11.1B, +13% YoY) but Q2 guided below consensus and FCF growth guidance cut to 4–5% from 9–10%; $25B buyback funded by debt. <a href="https://fortune.com/2026/05/27/salesforce-turbocharges-25-billion-stock-buying-spree-with-debt-cuts-cash-flow-guidance-in-half/">→</a></li>
+      <li><span class="ticker">NVDA</span> Consolidating — $80B buyback authorized May 23 (+$38.5B remaining = $118B total); $91B Q2 guidance being digested. <a href="https://www.fool.com/investing/2026/05/23/nvidias-board-just-authorized-an-additional-80-bil/">→</a></li>
+    </ul>
+
+    <div style="margin-top:16px;font-size:13px;color:#374151;line-height:1.6;">
+      <strong>Looking ahead:</strong> <strong>AJ Brown trade deadline June 1</strong> — Eagles save $26.6M in dead cap by waiting; Patriots remain frontrunner but timeline uncertain. <strong>Dell Q1 FY27 earnings</strong> this week — first print after the $9.7B DoD win. <strong>Iran MoU signature</strong> is the single biggest market-moving variable: an open Hormuz collapses energy ~$15–20/bbl and immediately rallies growth stocks. <strong>Fed June 10–11 FOMC</strong> — no cut expected; hike talk is now live with 3.8% PCE.
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/wallstreetbets</strong> — <a href="https://www.reddit.com/r/wallstreetbets/">"Salesforce beats earnings and CUT their cash flow guide in half. The $25B buyback is funded by DEBT. This is fine."</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Sub debating: confidence or desperation? Top reply: "They're paying themselves $25B with borrowed money while guiding down on cash. That's one way to prop a stock."</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-may-26-2026">TheStreet May 26</a> · record closes, Russell, Micron &nbsp;·&nbsp;
+        <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-may-27-2026">TheStreet May 27</a> · Dow record &nbsp;·&nbsp;
+        <a href="https://www.cnbc.com/2026/05/26/micron-stock-trillion-market-cap.html">CNBC — MU +19%</a> &nbsp;·&nbsp;
+        <a href="https://fortune.com/2026/05/27/salesforce-turbocharges-25-billion-stock-buying-spree-with-debt-cuts-cash-flow-guidance-in-half/">Fortune — CRM guidance cut</a> &nbsp;·&nbsp;
+        <a href="https://www.bloomberg.com/news/articles/2026-05-27/salesforce-gives-lukewarm-outlook-that-fuels-disruption-fears">Bloomberg — CRM reaction</a> &nbsp;·&nbsp;
+        <a href="https://www.fool.com/investing/2026/05/23/nvidias-board-just-authorized-an-additional-80-bil/">Motley Fool — NVDA $80B buyback</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ WORLD NEWS ══════════════ -->
+  <div class="section-card s-news">
+    <div class="section-header">
+      <span class="section-emoji">🗞️</span>
+      <span class="section-title">World &amp; General News</span>
+      <span class="section-count">3 stories</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Washington Post · WEF</div>
+      <div class="story-headline">
+        <a href="https://www.washingtonpost.com/world/ukraine-russia/">Ukraine strikes Ryazan — largest Ukrainian hit on Moscow's region since 2022</a>
+      </div>
+      <div class="story-body">
+        Ukrainian forces struck residential buildings and an oil refinery in Ryazan, Russia — the largest and most deadly Ukrainian attack on the Moscow capital region since the invasion began in 2022. Simultaneously, a Russian airstrike on a Kyiv apartment complex killed at least 24 people. Both strikes occurred within hours of each other, signaling mutual escalation capacity that makes any ceasefire framework harder to stabilize.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> A Ukrainian strike reaching Ryazan (~190km from Moscow's center) is a qualitative shift in Kyiv's long-range strike doctrine. It changes the calculus for domestic Russian audiences and for Western governments watching for escalation signals that could trigger NATO Article 5 debates.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNBC · Washington Post · CNN</div>
+      <div class="story-headline">
+        <a href="https://www.cnbc.com/2026/05/28/oil-prices-us-strikes-in-iran-revive-strait-of-hormuz-turmoil-fears.html">Iran MoU: what diplomacy looks like when neither side can tell the same story</a>
+      </div>
+      <div class="story-body">
+        Iran's state TV declared Wednesday that Tehran agreed to open Hormuz under Iranian-Omani management; the White House called it a "complete fabrication." US Central Command conducted strikes on Iranian missile sites on May 25 — after Trump said May 23 the deal was "largely negotiated." The 60-day MoU framework to extend the ceasefire while nuclear talks proceed is real; the question is whether Trump signs it or uses it as leverage.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The public contradiction between both sides is itself a negotiating tactic — each managing domestic audiences while leaving enough ambiguity for talks to continue. The economic impact (Brent, Fed) is in the Economics section; this story is about the diplomatic architecture, which is fragile and getting more so.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">UN News · WEF</div>
+      <div class="story-headline">
+        <a href="https://news.un.org/en/story/2026/05/1167551">Gaza: $490M raised of $4.1B needed — 1 million meals/day, down from 1.8M in February</a>
+      </div>
+      <div class="story-body">
+        The 2026 Gaza Flash Appeal — targeting $4.1 billion to support nearly 3 million people — is only 12% funded at $490 million. UN-supported kitchens are serving roughly 1 million meals per day, down from 1.8 million in February. Aid agencies report 1 in 5 families eating only once a day, with mothers routinely skipping meals so children can eat.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The drop from 1.8M to 1M meals/day in 90 days is a concrete, measurable collapse in food security at scale. Without a funding surge or structural change in access conditions, the trajectory worsens through summer — when seasonal heat compounds malnutrition risk significantly.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/worldnews</strong> — <a href="https://www.reddit.com/r/worldnews/">"Ukraine hits Ryazan. Russia hits Kyiv. 'Negotiations' is a word that doesn't mean what it used to."</a><br/>
+        <span style="font-size:12px;color:#6b7280;">Top reply: "Both sides are using diplomatic signaling as cover for military positioning. The attacks are the real message." Long IR-analysis thread running under the hot takes.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.washingtonpost.com/world/ukraine-russia/">Washington Post — Ukraine-Russia strikes</a> &nbsp;·&nbsp;
+        <a href="https://www.weforum.org/stories/2026/05/blockade-diplomacy-and-other-geopolitical-stories-to-know-this-month/">WEF — May 2026 geopolitical briefing</a> &nbsp;·&nbsp;
+        <a href="https://www.cnbc.com/2026/05/28/oil-prices-us-strikes-in-iran-revive-strait-of-hormuz-turmoil-fears.html">CNBC — White House denial, US strikes</a> &nbsp;·&nbsp;
+        <a href="https://www.washingtonpost.com/world/2026/05/24/us-iran-near-deal-extend-ceasefire-reopen-hormuz/">Washington Post — MoU terms</a> &nbsp;·&nbsp;
+        <a href="https://www.cnn.com/2026/05/25/world/live-news/iran-war-us-peace-deal">CNN — May 25–26 strikes</a> &nbsp;·&nbsp;
+        <a href="https://news.un.org/en/story/2026/05/1167551">UN News — Gaza $490M, meal counts</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ SPORTS ══════════════ -->
+  <div class="section-card s-sports">
+    <div class="section-header">
+      <span class="section-emoji">🏆</span>
+      <span class="section-title">Sports &amp; Prediction Markets</span>
+      <span class="section-count">WCF Game 6 Tonight</span>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CNN · Yahoo Sports</div>
+      <div class="story-headline">
+        <a href="https://www.cnn.com/2026/05/25/sport/knicks-sweep-cavaliers-eastern-conference-finals">Knicks sweep Cavaliers 4–0 — first NBA Finals berth since 1999</a>
+      </div>
+      <div class="story-body">
+        New York completed the sweep on May 25 with a 130–93 Game 4 blowout, the most dominant ECF performance in franchise history. Jalen Brunson won the Larry Bird ECF MVP Trophy, averaging 25.5 points and 7.8 assists across the series. The Knicks await the Thunder-Spurs winner, with the NBA Finals beginning June 3 on ABC.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> A Knicks Finals appearance drives the NBA's largest media market for the first time in 27 years. MSG ticket prices for potential home games are already viral at $4,000+ for upper deck. The matchup writes itself: Brunson's Knicks vs. either Wemby's Spurs or SGA's Thunder.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">ESPN · Bettors Insider</div>
+      <div class="story-headline">
+        <a href="https://www.espn.com/nba/story/_/id/48419498/nba-playoffs-2026-play-finals-schedule-scores-news-highlights-bracket-dates">WCF Game 6 is TONIGHT — OKC leads Spurs 3–2, Wembanyama's season on the line</a>
+      </div>
+      <div class="story-body">
+        Oklahoma City leads 3–2 after Game 5 (OKC 127–Spurs 114; SGA 32 pts, 9 ast). Game 6 tips tonight in San Antonio at 8:30 p.m. ET. The Spurs play at home with elimination on the line. If Wembanyama extends it to Game 7 (May 30 in OKC), the series calculus shifts sharply. Through 5 WCF games, Wembanyama has averaged 30+ points and 16+ rebounds.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> One of the most compelling young-player playoff runs in recent memory is one game from ending — or going to a winner-take-all Game 7 in OKC. A Wemby 40-point elimination survival at home tonight would be the defining image of his 2025–26 season.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">Polymarket · Bettors Insider</div>
+      <div class="story-headline">
+        <a href="https://bettorsinsider.com/prediction-markets/2026/05/27/nba-playoffs-prediction-market-analysis-thunder-450-series-favorites-sga-drives-okc-to-game-6/">Prediction markets: OKC at −450 to reach Finals; Game 6 Spurs 58.5% to win tonight</a>
+      </div>
+      <div class="story-body">
+        Polymarket's NBA Finals championship market: OKC Thunder 57.5%, Knicks 28.25%, Spurs 14.75%. For Game 6 specifically, Polymarket closed Tuesday with Spurs at 58.5% and Thunder at 40.5% — a notable divergence from the series-level pricing. $446,400 in 24-hour volume on Spurs championship contracts, the platform's highest NBA market volume this week.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> The Game 6 / series-level divergence is the interesting signal: the market assigns the Spurs better than coin-flip odds tonight despite a 3–2 deficit. Modeled out, it implies ~35% series probability for San Antonio — nearly 2.5× their series-level odds — reflecting specifically the home-court, win-or-go-home dynamic that tends to compress market pricing.</div>
+    </div>
+
+    <div class="story">
+      <div class="story-source-badge">CBS Sports · Heavy.com</div>
+      <div class="story-headline">
+        <a href="https://www.cbssports.com/nfl/news/aj-brown-eagles-split-contract-trade-timing/">AJ Brown trade: June 1 deadline imminent, Patriots frontrunner but timeline uncertain</a>
+      </div>
+      <div class="story-body">
+        Eagles WR AJ Brown (28) is not attending OTAs as trade speculation peaks ahead of the June 1 salary cap date. Trading before June 1: Eagles absorb a $43 million dead cap hit. After June 1: $16.4 million. The Patriots are frontrunners, but Brown has listed the Chargers, Bills, and Chiefs as preferred alternatives. The previously expected pre-June 1 timeline is now described as uncertain by multiple sources.
+      </div>
+      <div class="story-wim"><strong>Why it matters:</strong> Whoever lands Brown gets one of the best WRs in the league at prime age (28). For New England, it's the most impactful offensive acquisition since the Brady era. The June 1 mechanics affect both teams' cap strategies for 2026 — and the 3-day window is now.</div>
+    </div>
+
+    <!-- Community Pulse -->
+    <div class="pulse">
+      <div class="pulse-label">💬 Pulse</div>
+      <div class="pulse-content">
+        <strong>r/nba</strong> — <a href="https://www.reddit.com/r/nba/">"THE KNICKS ARE GOING TO THE FINALS. I've been waiting 27 years to type this sentence."</a><br/>
+        <span style="font-size:12px;color:#6b7280;">All-caps hysteria, MSG ticket price screenshots ($4K+ upper deck), and serious playoff analysis all in one thread. 60,000+ comments in under 24 hours.</span>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <div class="sources-list">
+        <a href="https://www.cnn.com/2026/05/25/sport/knicks-sweep-cavaliers-eastern-conference-finals">CNN — Knicks sweep Game 4</a> &nbsp;·&nbsp;
+        <a href="https://sports.yahoo.com/nba/live/knicks-continue-dominant-run-in-game-4-to-sweep-cavaliers-reach-nba-finals-for-first-time-since-1999-220000400.html">Yahoo Sports — Brunson MVP stats</a> &nbsp;·&nbsp;
+        <a href="https://www.espn.com/nba/story/_/id/48419498/nba-playoffs-2026-play-finals-schedule-scores-news-highlights-bracket-dates">ESPN — WCF status, Game 6 time</a> &nbsp;·&nbsp;
+        <a href="https://bettorsinsider.com/prediction-markets/2026/05/27/nba-playoffs-prediction-market-analysis-thunder-450-series-favorites-sga-drives-okc-to-game-6/">Bettors Insider — OKC −450, Game 6 pricing</a> &nbsp;·&nbsp;
+        <a href="https://polymarket.com/event/nba-parlay-thunder-spurs">Polymarket — championship odds</a> &nbsp;·&nbsp;
+        <a href="https://www.cbssports.com/nfl/news/aj-brown-eagles-split-contract-trade-timing/">CBS Sports — AJ Brown dead cap mechanics</a> &nbsp;·&nbsp;
+        <a href="https://heavy.com/sports/nfl/new-england-patriots/a-j-brown-trade-date-eagles/">Heavy.com — Patriots frontrunner</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════ VIBES ══════════════ -->
+  <div class="section-card s-vibes">
+    <div class="section-header">
+      <span class="section-emoji">💬</span>
+      <span class="section-title">The Vibes</span>
+      <span class="section-count">what the internet's doing</span>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/nba</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/nba/top/?t=week">"THE KNICKS ARE GOING TO THE FINALS. 27 years. Twenty seven."</a>
+        <div class="vibe-context">Sub melted down in real time. All-caps, nostalgia, disbelief, and $4K upper-deck MSG ticket screenshots all in one thread. Parent comments are people tagging friends they've known for 20+ years.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/ClaudeAI</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/ClaudeAI/top/?t=week">"Pope Leo XIV invited an Anthropic co-founder to the Vatican. I'm not sure what I expected from 2026 but it wasn't this."</a>
+        <div class="vibe-context">Thread has everything: serious engagement with the encyclical text, jokes about Claude being absolved of its sins, and one person's 3,000-word theological analysis. The range of this community is unmatched.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/wallstreetbets</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/wallstreetbets/top/?t=week">"Salesforce beats earnings and CUT their cash flow guide in half. The $25B buyback is funded by DEBT. This is fine."</a>
+        <div class="vibe-context">CRM is down after hours and the sub is doing forensics. Top reply: "They're paying themselves $25B with borrowed money while guiding down on cash flow." The dog-in-burning-house gif is getting heavy rotation.</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/technology</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/technology/top/?t=week">"Micron is a $1 trillion company now. From the country that was 'losing the chip war.'"</a>
+        <div class="vibe-context">Nationalistic undercurrent is real. The thread is full of people who thought CHIPS Act would take 10 years to pay off, now looking at MU +19% and HBM orders sold out for the year. "Turns out it wasn't a handout, it was a bet."</div>
+      </div>
+    </div>
+
+    <div class="vibe-item">
+      <span class="vibe-sub">r/geopolitics</span>
+      <div class="vibe-body">
+        <a href="https://www.reddit.com/r/geopolitics/top/?t=week">"US-Iran: 'Largely negotiated.' 'Complete fabrication.' Both sides are managing their own domestic audience and hoping the other noticed the signal."</a>
+        <div class="vibe-context">Most substantive thread of the week. IR academics working through the gap between Iranian and US public statements. Consensus: the 60-day MoU is real; the contradiction is intentional signaling aimed at domestic audiences, not each other.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <div class="footer">
+    <div class="footer-brand">AJ's<span>.</span>Brief</div>
+    <div class="footer-tagline">Generated by Claude · Powered by curiosity</div>
+    <div class="footer-links">
+      <a href="#">Archive</a>
+      <a href="#">About</a>
+      <a href="#">Subscribe</a>
+    </div>
+    <div class="footer-unsub">
+      You're receiving this because you signed up. &nbsp;
+      <a href="#">Unsubscribe</a> &nbsp;·&nbsp; <a href="#">Manage preferences</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
